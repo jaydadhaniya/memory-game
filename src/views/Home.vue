@@ -1,6 +1,7 @@
 <template>
   <div>
-    <card msg="Welcome to Memory Game" />
+    <h2>Welcome to Memory Game</h2>
+    <card />
   </div>
 </template>
 
@@ -15,3 +16,9 @@ export default {
   }
 };
 </script>
+<!-- Add "scoped" attribute to limit CSS to this component only -->
+<style scoped>
+h2 {
+  margin: 5px;
+}
+</style>
