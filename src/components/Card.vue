@@ -1,18 +1,8 @@
 <template>
-  <v-app>
-    <div>
-      <v-row class="justify-center">
-        <v-col cols="2"> score: {{ score }} </v-col>
-
-        <v-col cols="2">
-          <v-btn v-if="!started" color="primary" @click="start">Start</v-btn>
-          <v-btn v-if="started" color="error" @click="stop">Stop</v-btn>
-        </v-col>
-
-        <v-col cols="2"> Time: {{ seconds }} seconds </v-col>
-      </v-row>
-    </div>
-  </v-app>
+  <v-card @click="onCardClick">
+    <div>{{ card.symbol }}</div>
+    <v-overlay :absolute="true" :opacity="1" :value="!card.faceup"> </v-overlay>
+  </v-card>
 </template>
 
 <script>
@@ -20,31 +10,19 @@ export default {
   name: "Card",
 
   props: {
-    msg: String
-  },
-
-  data() {
-    return {
-      started: false,
-      seconds: 0,
-      timer: null,
-      score: 0
-    };
+    card: Object,
+    index: Number,
   },
 
   methods: {
-    start() {
-      this.seconds = 0;
-      this.started = true;
-      this.timer = setInterval(() => {
-        this.seconds++;
-      }, 1000);
+    /**
+     * On card click emit event is if it's not a matched one or alredy faceup
+     */
+    onCardClick() {
+      if (!this.card.matched && !this.card.faceup) {
+        this.$emit("onCardClick", this.card, this.index);
+      }
     },
-
-    stop() {
-      this.started = false;
-      clearInterval(this.timer);
-    }
-  }
+  },
 };
 </script>
