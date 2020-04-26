@@ -44,6 +44,34 @@
 // @ is an alias to /src
 import Card from "@/components/Card.vue";
 
+function initialState() {
+  return {
+    isGameOn: false,
+    seconds: 0,
+    timer: null,
+    pairCount: 0,
+    firstCard: null,
+    gameCard: [
+      { symbol: "1", faceup: false, matched: false },
+      { symbol: "1", faceup: false, matched: false },
+      { symbol: "2", faceup: false, matched: false },
+      { symbol: "2", faceup: false, matched: false },
+      { symbol: "3", faceup: false, matched: false },
+      { symbol: "3", faceup: false, matched: false },
+      { symbol: "4", faceup: false, matched: false },
+      { symbol: "4", faceup: false, matched: false },
+      { symbol: "5", faceup: false, matched: false },
+      { symbol: "5", faceup: false, matched: false },
+      { symbol: "6", faceup: false, matched: false },
+      { symbol: "6", faceup: false, matched: false },
+      { symbol: "7", faceup: false, matched: false },
+      { symbol: "7", faceup: false, matched: false },
+      { symbol: "8", faceup: false, matched: false },
+      { symbol: "8", faceup: false, matched: false },
+    ],
+  };
+}
+
 export default {
   name: "Home",
 
@@ -52,31 +80,7 @@ export default {
   },
 
   data() {
-    return {
-      isGameOn: false,
-      seconds: 0,
-      timer: null,
-      pairCount: 0,
-      firstCard: null,
-      gameCard: [
-        { symbol: "1", faceup: false, matched: false },
-        { symbol: "1", faceup: false, matched: false },
-        { symbol: "2", faceup: false, matched: false },
-        { symbol: "2", faceup: false, matched: false },
-        { symbol: "3", faceup: false, matched: false },
-        { symbol: "3", faceup: false, matched: false },
-        { symbol: "4", faceup: false, matched: false },
-        { symbol: "4", faceup: false, matched: false },
-        { symbol: "5", faceup: false, matched: false },
-        { symbol: "5", faceup: false, matched: false },
-        { symbol: "6", faceup: false, matched: false },
-        { symbol: "6", faceup: false, matched: false },
-        { symbol: "7", faceup: false, matched: false },
-        { symbol: "7", faceup: false, matched: false },
-        { symbol: "8", faceup: false, matched: false },
-        { symbol: "8", faceup: false, matched: false },
-      ],
-    };
+    return initialState();
   },
 
   methods: {
@@ -89,9 +93,9 @@ export default {
     },
 
     stop() {
-      this.seconds = 0;
-      this.isGameOn = false;
       clearInterval(this.timer);
+      // Assign initial value to data
+      Object.assign(this.$data, initialState());
     },
 
     /**
@@ -134,6 +138,10 @@ export default {
 
           this.firstCard = null;
           this.pairCount++;
+
+          if (this.pairCount === 8) {
+            clearInterval(this.timer);
+          }
         } else {
           this.gameCard[index] = {
             symbol: card.symbol,
