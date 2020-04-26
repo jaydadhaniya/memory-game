@@ -21,11 +21,14 @@
     </div>
     <v-row v-if="isGameOn">
       <v-col cols="12" sm="6" offset-sm="3">
-        <v-card>
-          <v-container fluid>
+        <v-card style="border-radius: 10px;">
+          <v-container
+            fluid
+            style="background: linear-gradient(160deg, #02ccba 0%, #aa7ecd 100%); padding: 10px 20px;"
+          >
             <v-row>
               <v-col v-for="(card, index) in gameCard" :key="index" cols="3">
-                <v-card class="justify-center" style="font-size: 50px;">
+                <v-card class="justify-center">
                   <card :card="card" :index="index" @onCardClick="checkCard" />
                 </v-card>
               </v-col>

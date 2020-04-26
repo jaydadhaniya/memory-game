@@ -1,7 +1,18 @@
 <template>
-  <v-card @click="onCardClick">
-    <div>{{ card.symbol }}</div>
-    <v-overlay :absolute="true" :opacity="1" :value="!card.faceup"> </v-overlay>
+  <v-card
+    @click="onCardClick"
+    class="box"
+    :style="{ cursor: card.faceup ? 'not-allowed' : 'pointer' }"
+  >
+    <v-overlay
+      :color="this.card.matched ? '#02ccba' : '#02b3e4'"
+      :absolute="true"
+      :opacity="1"
+      :value="card.faceup"
+      style="font-size: 100px;"
+    >
+      {{ card.symbol }}
+    </v-overlay>
   </v-card>
 </template>
 
@@ -26,3 +37,12 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+.box {
+  background: #2e3d49 !important;
+  min-height: 150px;
+  border-radius: 5px !important;
+  box-shadow: 12px 15px 20px 0 rgba(46, 61, 73, 0.5);
+}
+</style>
