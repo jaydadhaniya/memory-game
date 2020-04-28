@@ -8,10 +8,25 @@
         </v-col>
 
         <v-col cols="2">
-          <v-btn v-if="!isGameOn" large color="primary" @click="start"
+          <v-btn v-if="!isGameOn" large color="#02ccba" @click="start"
             >Start</v-btn
           >
-          <v-btn v-if="isGameOn" large color="error" @click="stop">Stop</v-btn>
+          <v-btn
+            class="float-left"
+            v-if="isGameOn"
+            large
+            color="error"
+            @click="stop"
+            >Stop</v-btn
+          >
+          <v-btn
+            class="float-right"
+            v-if="isGameOn"
+            large
+            color="#02ccba"
+            @click="reStart"
+            >Restart</v-btn
+          >
         </v-col>
 
         <v-col cols="2">
@@ -37,6 +52,37 @@
         </v-card>
       </v-col>
     </v-row>
+    <v-dialog
+      v-if="winner"
+      v-bind="$attrs"
+      v-on="$listeners"
+      :value="winner"
+      persistent
+      max-width="500px"
+    >
+      <v-card>
+        <v-card-title class="headline" style=" background-color: #02ccba; ">
+          You are a Winner!
+        </v-card-title>
+
+        <v-card-text class="text-center">
+          <h3>
+            Hurrah! You won game in {{ seconds }} seconds and in
+            {{ totalMoves }} moves!
+          </h3>
+        </v-card-text>
+
+        <v-divider></v-divider>
+
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn color="#02ccba" large @click="reStart">
+            Play Again
+          </v-btn>
+          <v-spacer></v-spacer>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
   </v-app>
 </template>
 
@@ -69,6 +115,8 @@ function initialState() {
       { symbol: "8", faceup: false, matched: false },
       { symbol: "8", faceup: false, matched: false },
     ],
+    winner: false,
+    totalMoves: 0,
   };
 }
 
@@ -96,6 +144,13 @@ export default {
       clearInterval(this.timer);
       // Assign initial value to data
       Object.assign(this.$data, initialState());
+    },
+
+    reStart() {
+      clearInterval(this.timer);
+      // Assign initial value to data
+      Object.assign(this.$data, initialState());
+      this.start();
     },
 
     /**
@@ -138,9 +193,11 @@ export default {
 
           this.firstCard = null;
           this.pairCount++;
+          this.totalMoves++;
 
           if (this.pairCount === 8) {
             clearInterval(this.timer);
+            this.winner = true;
           }
         } else {
           this.gameCard[index] = {
@@ -155,6 +212,7 @@ export default {
           };
 
           this.firstCard = null;
+          this.totalMoves++;
         }
       }, 2000);
     },
