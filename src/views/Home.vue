@@ -4,7 +4,8 @@
     <div>
       <v-row class="justify-center">
         <v-col cols="2">
-          <h2>Score: {{ pairCount }}</h2>
+          <h2 class="float-left">Score: {{ pairCount }}</h2>
+          <h2 class="float-right">Moves: {{ totalMoves }}</h2>
         </v-col>
 
         <v-col cols="2">
@@ -65,7 +66,7 @@
           You are a Winner!
         </v-card-title>
 
-        <v-card-text class="text-center">
+        <v-card-text class="text-center pt-5">
           <h3>
             Hurrah! You won game in {{ seconds }} seconds and in
             {{ totalMoves }} moves!
