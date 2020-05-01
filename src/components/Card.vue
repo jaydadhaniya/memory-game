@@ -22,7 +22,7 @@ export default {
 
   props: {
     card: Object,
-    index: Number,
+    index: Number
   },
 
   methods: {
@@ -33,8 +33,8 @@ export default {
       if (!this.card.matched && !this.card.faceup) {
         this.$emit("onCardClick", this.card, this.index);
       }
-    },
-  },
+    }
+  }
 };
 </script>
 

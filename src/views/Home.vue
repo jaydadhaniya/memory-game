@@ -114,10 +114,10 @@ function initialState() {
       { symbol: "7", faceup: false, matched: false },
       { symbol: "7", faceup: false, matched: false },
       { symbol: "8", faceup: false, matched: false },
-      { symbol: "8", faceup: false, matched: false },
+      { symbol: "8", faceup: false, matched: false }
     ],
     winner: false,
-    totalMoves: 0,
+    totalMoves: 0
   };
 }
 
@@ -125,7 +125,7 @@ export default {
   name: "Home",
 
   components: {
-    Card,
+    Card
   },
 
   data() {
@@ -184,12 +184,12 @@ export default {
           this.gameCard[index] = {
             symbol: card.symbol,
             faceup: true,
-            matched: true,
+            matched: true
           };
           this.gameCard[this.firstCard.index] = {
             symbol: card.symbol,
             faceup: true,
-            matched: true,
+            matched: true
           };
 
           this.firstCard = null;
@@ -204,19 +204,19 @@ export default {
           this.gameCard[index] = {
             symbol: card.symbol,
             faceup: false,
-            matched: false,
+            matched: false
           };
           this.gameCard[this.firstCard.index] = {
             symbol: this.firstCard.symbol,
             faceup: false,
-            matched: false,
+            matched: false
           };
 
           this.firstCard = null;
           this.totalMoves++;
         }
       }, 2000);
-    },
-  },
+    }
+  }
 };
 </script>
