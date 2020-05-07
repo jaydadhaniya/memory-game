@@ -53,43 +53,20 @@
         </v-card>
       </v-col>
     </v-row>
-    <v-dialog
+    <winner-dialog
       v-if="winner"
-      v-bind="$attrs"
-      v-on="$listeners"
-      :value="winner"
-      persistent
-      max-width="500px"
-    >
-      <v-card>
-        <v-card-title class="headline" style=" background-color: #02ccba; ">
-          You are a Winner!
-        </v-card-title>
-
-        <v-card-text class="text-center pt-5">
-          <h3>
-            Hurrah! You won game in {{ seconds }} seconds and in
-            {{ totalMoves }} moves!
-          </h3>
-        </v-card-text>
-
-        <v-divider></v-divider>
-
-        <v-card-actions>
-          <v-spacer></v-spacer>
-          <v-btn color="#02ccba" large @click="reStart">
-            Play Again
-          </v-btn>
-          <v-spacer></v-spacer>
-        </v-card-actions>
-      </v-card>
-    </v-dialog>
+      :winner="winner"
+      :seconds="seconds"
+      :total-moves="totalMoves"
+      @play-again="reStart"
+    />
   </v-app>
 </template>
 
 <script>
 // @ is an alias to /src
 import Card from "@/components/Card.vue";
+import WinnerDialog from "@/components/WinnerDialog.vue";
 
 function initialState() {
   return {
@@ -125,7 +102,8 @@ export default {
   name: "Home",
 
   components: {
-    Card
+    Card,
+    WinnerDialog
   },
 
   data() {
