@@ -9,8 +9,21 @@
         </v-col>
 
         <v-col cols="2">
-          <v-btn v-if="!isGameOn" large color="#02ccba" @click="start"
+          <v-btn
+            class="float-left"
+            v-if="!isGameOn"
+            large
+            color="#02ccba"
+            @click="start"
             >Start</v-btn
+          >
+          <v-btn
+            class="float-right"
+            v-if="!isGameOn"
+            large
+            color="#aa7ecd"
+            @click="showInstruction = true"
+            >How To Play</v-btn
           >
           <v-btn
             class="float-left"
@@ -60,6 +73,11 @@
       :total-moves="totalMoves"
       @play-again="reStart"
     />
+    <how-to-play
+      v-if="showInstruction"
+      :show-instruction="showInstruction"
+      @play="start"
+    />
   </v-app>
 </template>
 
@@ -67,6 +85,7 @@
 // @ is an alias to /src
 import Card from "@/components/Card.vue";
 import WinnerDialog from "@/components/WinnerDialog.vue";
+import HowToPlay from "@/components/HowToPlay.vue";
 
 function initialState() {
   return {
@@ -94,7 +113,8 @@ function initialState() {
       { symbol: "8", faceup: false, matched: false }
     ],
     winner: false,
-    totalMoves: 0
+    totalMoves: 0,
+    showInstruction: false
   };
 }
 
@@ -103,7 +123,8 @@ export default {
 
   components: {
     Card,
-    WinnerDialog
+    WinnerDialog,
+    HowToPlay
   },
 
   data() {
@@ -114,6 +135,7 @@ export default {
     start() {
       this.suffle();
       this.isGameOn = true;
+      this.showInstruction = false;
       this.timer = setInterval(() => {
         this.seconds++;
       }, 1000);
