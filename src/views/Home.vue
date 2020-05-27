@@ -58,7 +58,12 @@
             <v-row>
               <v-col v-for="(card, index) in gameCard" :key="index" cols="3">
                 <v-card class="justify-center">
-                  <card :card="card" :index="index" @onCardClick="checkCard" />
+                  <card
+                    :card="card"
+                    :index="index"
+                    @onCardClick="checkCard"
+                    :prevent-click="checkInProgress"
+                  />
                 </v-card>
               </v-col>
             </v-row>
@@ -114,7 +119,8 @@ function initialState() {
     ],
     winner: false,
     totalMoves: 0,
-    showInstruction: false
+    showInstruction: false,
+    checkInProgress: false
   };
 }
 
@@ -176,46 +182,51 @@ export default {
      */
     checkCard(card, index) {
       this.gameCard[index] = { ...card, faceup: true };
+      this.checkInProgress = true;
 
-      setTimeout(() => {
-        if (this.firstCard === null) {
-          this.firstCard = { ...card, index };
-        } else if (this.firstCard.symbol === card.symbol) {
-          this.gameCard[index] = {
-            symbol: card.symbol,
-            faceup: true,
-            matched: true
-          };
-          this.gameCard[this.firstCard.index] = {
-            symbol: card.symbol,
-            faceup: true,
-            matched: true
-          };
+      if (this.firstCard === null) {
+        this.firstCard = { ...card, index };
+        this.checkInProgress = false;
+      } else {
+        setTimeout(() => {
+          if (this.firstCard.symbol === card.symbol) {
+            this.gameCard[index] = {
+              symbol: card.symbol,
+              faceup: true,
+              matched: true
+            };
+            this.gameCard[this.firstCard.index] = {
+              symbol: card.symbol,
+              faceup: true,
+              matched: true
+            };
 
-          this.firstCard = null;
-          this.pairCount++;
-          this.totalMoves++;
+            this.firstCard = null;
+            this.pairCount++;
+            this.totalMoves++;
 
-          if (this.pairCount === 8) {
-            clearInterval(this.timer);
-            this.winner = true;
+            if (this.pairCount === 8) {
+              clearInterval(this.timer);
+              this.winner = true;
+            }
+          } else {
+            this.gameCard[index] = {
+              symbol: card.symbol,
+              faceup: false,
+              matched: false
+            };
+            this.gameCard[this.firstCard.index] = {
+              symbol: this.firstCard.symbol,
+              faceup: false,
+              matched: false
+            };
+
+            this.firstCard = null;
+            this.totalMoves++;
           }
-        } else {
-          this.gameCard[index] = {
-            symbol: card.symbol,
-            faceup: false,
-            matched: false
-          };
-          this.gameCard[this.firstCard.index] = {
-            symbol: this.firstCard.symbol,
-            faceup: false,
-            matched: false
-          };
-
-          this.firstCard = null;
-          this.totalMoves++;
-        }
-      }, 2000);
+          this.checkInProgress = false;
+        }, 2000);
+      }
     }
   }
 };

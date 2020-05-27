@@ -2,7 +2,7 @@
   <v-card
     @click="onCardClick"
     class="box"
-    :style="{ cursor: card.faceup ? 'not-allowed' : 'pointer' }"
+    :style="{ cursor: card.faceup || preventClick ? 'not-allowed' : 'pointer' }"
   >
     <v-overlay
       :color="this.card.matched ? '#02ccba' : '#02b3e4'"
@@ -21,8 +21,9 @@ export default {
   name: "Card",
 
   props: {
-    card: Object,
-    index: Number
+    card: { type: Object, required: true },
+    index: { type: Number, required: true },
+    preventClick: { type: Boolean, default: false }
   },
 
   methods: {
@@ -30,7 +31,7 @@ export default {
      * On card click emit event is if it's not a matched one or alredy faceup
      */
     onCardClick() {
-      if (!this.card.matched && !this.card.faceup) {
+      if (!this.preventClick && !this.card.matched && !this.card.faceup) {
         this.$emit("onCardClick", this.card, this.index);
       }
     }
